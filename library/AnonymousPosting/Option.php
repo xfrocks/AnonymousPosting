@@ -83,11 +83,6 @@ class AnonymousPosting_Option
 
 	public static function processAnonymousPosting(XenForo_DataWriter_DiscussionMessage_Post $dw, $attachmentHash = '')
 	{
-		if ($dw->isUpdate())
-		{
-			return false;
-		}
-		
 		$posterUsername = XenForo_Application::get('options')->anonymous_posting_poster;
 		$poster = array(
 			'user_id' => 0,
