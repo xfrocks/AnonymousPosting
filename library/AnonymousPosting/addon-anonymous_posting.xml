@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="anonymous_posting" title="[bd] Anonymous Posting" version_string="2.0" version_id="10" url="" install_callback_class="AnonymousPosting_Installer" install_callback_method="install" uninstall_callback_class="AnonymousPosting_Installer" uninstall_callback_method="uninstall">
+  <admin_navigation>
+    <navigation navigation_id="anonymous_posting_log" parent_navigation_id="logs" display_order="9999" link="anonymous-posting" admin_permission_id="addOn" debug_only="0" hide_no_children="0"/>
+  </admin_navigation>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates>
+    <template title="anonymous_posting_log"><![CDATA[<xen:title>{xen:phrase anonymous_posting_log}</xen:title>
+
+<xen:if is="{$posts}">
+	<table class="dataTable">
+	<col />
+	<col />
+	<col />
+	<col width="1" />
+	<col width="1" />
+	<tr class="dataRow">
+		<th>{xen:phrase message}</th>
+		<th>{xen:phrase user_name}</th>
+		<th>{xen:phrase date}</th>
+		<th>&nbsp;</th>
+	</tr>
+	<xen:foreach loop="$posts" value="$post">
+		<tr class="dataRow">
+			<td>{xen:helper snippet, {$post.message}, 100}</td>
+			<td>{$post.anonymous_posting_real_username}</td>
+			<td><xen:datetime time="{$post.post_date}" /></td>
+			<td><a href="{xen:link 'posts', $post}" target="_blank">{xen:phrase view}</a></td>
+		</tr>
+	</xen:foreach>
+	</table>
+	<div><a href="{xen:adminlink 'anonymous-posting/delete-all'}" class="OverlayTrigger">{xen:phrase delete_all}</a></div>
+	<xen:adminpagenav page="{$page}" perpage="{$perPage}" total="{$total}" link="anonymous-posting" />
+<xen:else />
+	<div>{xen:phrase anonymous_posting_log_empty}</div>
+</xen:if>]]></template>
+    <template title="anonymous_posting_log_delete_all"><![CDATA[<xen:title>{xen:phrase anonymous_posting_confirm_deletion_of_log}</xen:title>
+<xen:require css="delete_confirmation.css" />
+
+<xen:form action="{xen:adminlink 'anonymous-posting/delete-all'}" class="deleteConfirmForm formOverlay">
+
+	<p>{xen:phrase anonymous_posting_sure_you_want_to_delete_all}</p>
+
+	<xen:submitunit save="{xen:phrase delete_all}" />
+	
+	<input type="hidden" name="_xfConfirm" value="1" />
+</xen:form>]]></template>
+  </admin_templates>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" description=""/>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" description=""/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" description=""/>
+    <listener event_id="template_create" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="create_template" active="1" description=""/>
+    <listener event_id="template_hook" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="template_hook" active="1" description=""/>
+    <listener event_id="template_post_render" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="template_post_render" active="1" description=""/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <optiongroups>
+    <option option_id="anonymous_posting_poster" edit_format="textbox" data_type="string" can_backup="1" validation_class="AnonymousPosting_Option" validation_method="validatePoster">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="discussionOptions" display_order="9999"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions>
+      <permission permission_group_id="forum" permission_id="anonymous_posting_post" permission_type="flag" depend_permission_id="postThread" default_value="unset" interface_group_id="forumPermissions" display_order="9999"/>
+      <permission permission_group_id="general" permission_id="anonymous_posting_reveal" permission_type="flag" default_value="unset" interface_group_id="generalPermissions" display_order="9999"/>
+    </permissions>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="admin_navigation_anonymous_posting_log" version_id="4" version_string="1.2"><![CDATA[Anonymous Posting Log]]></phrase>
+    <phrase title="anonymous_poster_invalid_poster_username" version_id="1" version_string="0.9"><![CDATA[Invalid username for Anonymous Poster. You can leave it blank anyway]]></phrase>
+    <phrase title="anonymous_posting_confirm_deletion_of_log" version_id="4" version_string="1.2"><![CDATA[Confirm Deletion of Anonymous Posting log]]></phrase>
+    <phrase title="anonymous_posting_explain" version_id="1" version_string="0.9"><![CDATA[Choosing to post anonymously will remove your credential from the post. You won't be able to edit this post later.]]></phrase>
+    <phrase title="anonymous_posting_log" version_id="4" version_string="1.2"><![CDATA[Anonymous Posting Log]]></phrase>
+    <phrase title="anonymous_posting_log_empty" version_id="4" version_string="1.2"><![CDATA[The log is empty.]]></phrase>
+    <phrase title="anonymous_posting_options" version_id="1" version_string="0.9"><![CDATA[Anonymous Posting Options]]></phrase>
+    <phrase title="anonymous_posting_poster" global_cache="1" version_id="1" version_string="0.9"><![CDATA[Anonymous]]></phrase>
+    <phrase title="anonymous_posting_post_this_as_anonymous" version_id="1" version_string="0.9"><![CDATA[Post this anonymously]]></phrase>
+    <phrase title="anonymous_posting_post_this_as_anonymous_lite" version_id="1" version_string="0.9"><![CDATA[Anonymous?]]></phrase>
+    <phrase title="anonymous_posting_sure_you_want_to_delete_all" version_id="4" version_string="1.2"><![CDATA[Are you sure that you want to delete all Anonymous Posting log? After this, you won't be able to see who posted which.]]></phrase>
+    <phrase title="anonymous_posting_this_was_posted_by" version_id="3" version_string="1.1"><![CDATA[This was posted anonymously by]]></phrase>
+    <phrase title="option_anonymous_posting_poster" version_id="1" version_string="0.9"><![CDATA[[Anonymous Posting] Poster]]></phrase>
+    <phrase title="option_anonymous_posting_poster_explain" version_id="1" version_string="0.9"><![CDATA[Enter the username of the "Anonymous" user you want to associate anonymously posted posts with. If you leave this field blank, they will appeared to be posted by guest (the guest name can be changed by editing the phrase named "anonymous_posting_poster").]]></phrase>
+    <phrase title="permission_forum_anonymous_posting_post" version_id="9" version_string="1.4"><![CDATA[Post anonymously]]></phrase>
+    <phrase title="permission_general_anonymous_posting_reveal" version_id="9" version_string="1.4"><![CDATA[Reveal anonymously-posted posts]]></phrase>
+  </phrases>
+  <route_prefixes>
+    <route_type type="admin">
+      <prefix original_prefix="anonymous-posting" class="AnonymousPosting_Route_PrefixAdmin" build_link="none"/>
+    </route_type>
+  </route_prefixes>
+  <style_properties/>
+  <templates>
+    <template title="anonymous_posting_checkbox" version_id="1" version_string="0.9"><![CDATA[<xen:if is="{$anonymous_posting.hash}">
+<xen:if hascontent="true">
+	<dl class="ctrlUnit surplusLabel">
+		<dt><label>{xen:phrase anonymous_posting_options}:</label></dt>
+		<dd>
+			<ul>
+			<xen:contentcheck>
+				<xen:if is="{$visitor.user_id}">
+					<li>
+						<label for="ctrl_anonymous_posting">
+							<input type="checkbox" name="anonymous_posting" value="{$anonymous_posting.hash}" id="ctrl_anonymous_posting" {xen:checked {$anonymous_posting.checked}} />
+							{xen:phrase anonymous_posting_post_this_as_anonymous}
+						</label>
+						<p class="hint">{xen:phrase anonymous_posting_explain}</p>
+					</li>
+				</xen:if>
+			</xen:contentcheck>
+			</ul>
+		</dd>
+	</dl>
+</xen:if>
+<!-- search-and-replace --><dl class="ctrlUnit submitUnit"><!-- search-and-replace -->
+</xen:if>]]></template>
+    <template title="anonymous_posting_checkbox_lite" version_id="6" version_string="1.3"><![CDATA[<xen:if is="{$anonymous_posting.hash}">
+<!-- search-and-replace --><div class="submitUnit"><!-- search-and-replace -->
+<label for="ctrl_anonymous_posting" title="{xen:phrase anonymous_posting_explain}">
+	<input type="checkbox" name="anonymous_posting" value="{$anonymous_posting.hash}" id="ctrl_anonymous_posting" {xen:checked {$anonymous_posting.checked}}/>
+	{xen:phrase anonymous_posting_post_this_as_anonymous_lite}
+</label>&nbsp;
+</xen:if>]]></template>
+    <template title="anonymous_posting_reveal" version_id="3" version_string="1.1"><![CDATA[<xen:if is="{$message.anonymous_posting_real_user_id}">
+<div class="muted">
+{xen:phrase anonymous_posting_this_was_posted_by}:
+<a href="{xen:link 'members', {xen:array 'user_id={$message.anonymous_posting_real_user_id}', 'username={$message.anonymous_posting_real_username}'}}" class="username">
+{$message.anonymous_posting_real_username}
+</a>
+</div>
+</xen:if>]]></template>
+  </templates>
+  <bb_code_media_sites/>
+</addon>
