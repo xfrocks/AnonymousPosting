@@ -1,1 +1,3 @@
 library/AnonymousPosting/FileSums.php
+*.devhelper
+library/AnonymousPosting/DevHelper/Generated
