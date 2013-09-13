@@ -23,6 +23,8 @@ class AnonymousPosting_Listener
 			'XenForo_Model_Post',
 			/* added 24-08-2012 */
 			'XenForo_Model_Forum',
+			// added 13-09-2013
+			'XenForo_Model_Session',
 		);
 
 		if (in_array($class, $extends))

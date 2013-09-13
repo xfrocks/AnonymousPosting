@@ -86,6 +86,14 @@ class AnonymousPosting_Installer
 		
 		if (empty($existingAddOn))
 		{
+			$effectiveVersionId = 0;
+		}
+		else {
+			$effectiveVersionId = $existingAddOn['version_id'];
+		}
+		
+		if ($effectiveVersionId == 0)
+		{
 			$db->query("
 				INSERT IGNORE INTO xf_permission_entry
 					(user_group_id, user_id, permission_group_id, permission_id, permission_value, permission_value_int)
@@ -100,6 +108,17 @@ class AnonymousPosting_Installer
 				SELECT user_group_id, user_id, 'general', 'anonymous_posting_reveal', permission_value, 0
 				FROM xf_permission_entry
 				WHERE permission_group_id = 'general' AND permission_id = 'bypassUserPrivacy'
+			");
+		}
+		
+		if ($effectiveVersionId < 12)
+		{
+			$db->query("
+				INSERT IGNORE INTO xf_permission_entry
+					(user_group_id, user_id, permission_group_id, permission_id, permission_value, permission_value_int)
+				SELECT user_group_id, user_id, 'forum', 'anonymous_posting_seeUser', permission_value, 0
+				FROM xf_permission_entry
+				WHERE permission_group_id = 'forum' AND permission_id = 'postThread'
 			");
 		}
 	}
