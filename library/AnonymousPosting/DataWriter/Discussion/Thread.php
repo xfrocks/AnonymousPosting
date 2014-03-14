@@ -8,7 +8,7 @@ class AnonymousPosting_DataWriter_Discussion_Thread extends XFCP_AnonymousPostin
 
 		if (!empty($GLOBALS['AnonymousPosting_ControllerPublic_Forum']))
 		{
-			$GLOBALS['AnonymousPosting_ControllerPublic_Forum']->processAnonymousPosting($this, $this->_firstMessageDw);
+			$GLOBALS['AnonymousPosting_ControllerPublic_Forum']->processAnonymousPosting($this, $this->getFirstMessageDw());
 		}
 	}
 
