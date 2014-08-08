@@ -54,7 +54,7 @@ class AnonymousPosting_Option
 
 	public static function prepareResponse(XenForo_Controller $controller, XenForo_Input $input, $response)
 	{
-		if ($response instanceof XenForo_ControllerResponse_View)
+		if ($response instanceof XenForo_ControllerResponse_View AND isset($response->params['forum']))
 		{
 			$forum = $response->params['forum'];
 			$thread = (isset($response->params['thread']) ? $response->params['thread'] : array());
