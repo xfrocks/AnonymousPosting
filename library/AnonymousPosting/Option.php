@@ -75,10 +75,10 @@ class AnonymousPosting_Option
 
 	public static function getAnonymousPostingHash($forumId, $threadId)
 	{
-		$visitor = XenForo_Visitor::getInstance();
+		$session = XenForo_Application::getSession();
 		$salt = XenForo_Application::getConfig()->get('globalSalt');
 
-		return md5($visitor->get('user_id') . $visitor->get('username') . $forumId . $threadId . $salt);
+		return md5($session->getSessionId() . $forumId . $threadId . $salt);
 	}
 
 	public static function processAnonymousPosting(XenForo_DataWriter_DiscussionMessage_Post $dw, $attachmentHash = '')

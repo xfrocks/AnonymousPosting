@@ -105,28 +105,22 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="anonymous_posting_checkbox" version_id="10" version_string="2.0"><![CDATA[<xen:if is="{$anonymous_posting.hash}">
+    <template title="anonymous_posting_checkbox" version_id="14" version_string="2.2.0c"><![CDATA[<xen:if is="{$anonymous_posting.hash}">
 <!-- search-and-replace --><!-- slot: after_attachment --><!-- search-and-replace -->
-<xen:if hascontent="true">
 	<dl class="ctrlUnit surplusLabel">
 		<dt><label>{xen:phrase anonymous_posting_options}:</label></dt>
 		<dd>
 			<ul>
-			<xen:contentcheck>
-				<xen:if is="{$visitor.user_id}">
-					<li>
-						<label for="ctrl_anonymous_posting">
-							<input type="checkbox" name="anonymous_posting" value="{$anonymous_posting.hash}" id="ctrl_anonymous_posting" {xen:checked {$anonymous_posting.checked}} />
-							{xen:phrase anonymous_posting_post_this_as_anonymous}
-						</label>
-						<p class="hint">{xen:phrase anonymous_posting_explain}</p>
-					</li>
-				</xen:if>
-			</xen:contentcheck>
+				<li>
+					<label for="ctrl_anonymous_posting">
+						<input type="checkbox" name="anonymous_posting" value="{$anonymous_posting.hash}" id="ctrl_anonymous_posting" {xen:checked {$anonymous_posting.checked}} />
+						{xen:phrase anonymous_posting_post_this_as_anonymous}
+					</label>
+					<p class="hint">{xen:phrase anonymous_posting_explain}</p>
+				</li>
 			</ul>
 		</dd>
 	</dl>
-</xen:if>
 </xen:if>
 	
 <xen:edithint template="thread_reply" />
