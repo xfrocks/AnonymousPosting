@@ -52,12 +52,8 @@
   <code_event_listeners>
     <listener event_id="file_health_check" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="file_health_check" active="1" hint="" description=""/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" hint="" description=""/>
-    <listener event_id="load_class_controller" execute_order="9999" callback_class="AnonymousPosting_Listener" callback_method="load_class_XenForo_ControllerPublic_Thread" active="1" hint="XenForo_ControllerPublic_Thread" description="Extending XenForo_ControllerPublic_Thread (with event hint and 9999 execution order to be executed last)"/>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" hint="" description=""/>
     <listener event_id="load_class_model" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" hint="" description=""/>
-    <listener event_id="template_create" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="create_template" active="1" hint="" description=""/>
-    <listener event_id="template_hook" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="template_hook" active="1" hint="" description=""/>
-    <listener event_id="template_post_render" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="template_post_render" active="1" hint="" description=""/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
@@ -106,7 +102,6 @@
   <style_properties/>
   <templates>
     <template title="anonymous_posting_checkbox" version_id="14" version_string="2.2.0c"><![CDATA[<xen:if is="{$anonymous_posting.hash}">
-<!-- search-and-replace --><!-- slot: after_attachment --><!-- search-and-replace -->
 	<dl class="ctrlUnit surplusLabel">
 		<dt><label>{xen:phrase anonymous_posting_options}:</label></dt>
 		<dd>
@@ -125,23 +120,52 @@
 	
 <xen:edithint template="thread_reply" />
 <xen:edithint template="thread_create" />]]></template>
-    <template title="anonymous_posting_checkbox_lite" version_id="10" version_string="2.0"><![CDATA[<xen:if is="{$anonymous_posting.hash}">
-<!-- search-and-replace --><div class="submitUnit"><!-- search-and-replace -->
-<label for="ctrl_anonymous_posting" title="{xen:phrase anonymous_posting_explain}">
-	<input type="checkbox" name="anonymous_posting" value="{$anonymous_posting.hash}" id="ctrl_anonymous_posting" tabindex="-1" {xen:checked {$anonymous_posting.checked}}/>
-	{xen:phrase anonymous_posting_post_this_as_anonymous_lite}
-</label>&nbsp;
-</xen:if>]]></template>
-    <template title="anonymous_posting_reveal" version_id="3" version_string="1.1"><![CDATA[<xen:if is="{$message.anonymous_posting_real_user_id}">
-<div class="muted">
-{xen:phrase anonymous_posting_this_was_posted_by}:
-<a href="{xen:link 'members', {xen:array 'user_id={$message.anonymous_posting_real_user_id}', 'username={$message.anonymous_posting_real_username}'}}" class="username">
-{$message.anonymous_posting_real_username}
-</a>
-</div>
-</xen:if>]]></template>
+    <template title="anonymous_posting_checkbox_lite" version_id="14" version_string="2.2.0c"><![CDATA[<xen:if is="{$anonymous_posting.hash}">
+	<label for="ctrl_anonymous_posting" title="{xen:phrase anonymous_posting_explain}">
+		<input type="checkbox" name="anonymous_posting" value="{$anonymous_posting.hash}" id="ctrl_anonymous_posting" tabindex="-1" {xen:checked {$anonymous_posting.checked}}/>
+		{xen:phrase anonymous_posting_post_this_as_anonymous_lite}
+	</label>&nbsp;
+</xen:if>
+
+<xen:edithint template="anonymous_posting_checkbox_lite" />]]></template>
+    <template title="anonymous_posting_reveal" version_id="14" version_string="2.2.0c"><![CDATA[<xen:if is="{$AnonymousPosting_canReveal} && {$message.anonymous_posting_real_user_id}">
+	<li class="anonymousNotice">
+		{xen:phrase anonymous_posting_this_was_posted_by}:
+		<a href="{xen:link 'members', {xen:array 'user_id={$message.anonymous_posting_real_user_id}',
+				 'username={$message.anonymous_posting_real_username}'}}" class="username">
+			{$message.anonymous_posting_real_username}
+		</a>
+	</li>
+</xen:if>
+
+<xen:edithint template="message" />]]></template>
   </templates>
-  <public_template_modifications/>
+  <public_template_modifications>
+    <modification template="quick_reply" modification_key="anonymous_posting_quick_reply" description="Insert checkbox in quick reply." execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<div class="submitUnit">]]></find>
+      <replace><![CDATA[$0
+
+<xen:include template="anonymous_posting_checkbox_lite" />]]></replace>
+    </modification>
+    <modification template="message" modification_key="anonymous_posting_reveal" description="Insert reveal notice in messages." execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#<xen:hook name="message_notices".+?>#]]></find>
+      <replace><![CDATA[$0
+
+<xen:include template="anonymous_posting_reveal" />]]></replace>
+    </modification>
+    <modification template="thread_create" modification_key="anonymous_posting_thread_create" description="Insert checkbox in thread create." execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:if is="{$attachmentParams}">]]></find>
+      <replace><![CDATA[<xen:include template="anonymous_posting_checkbox" />
+
+$0]]></replace>
+    </modification>
+    <modification template="thread_reply" modification_key="anonymous_posting_thread_reply" description="Insert checkbox in thread reply (full editor)." execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<!-- slot: after_submit -->]]></find>
+      <replace><![CDATA[<!-- slot: after_submit -->
+
+<xen:include template="anonymous_posting_checkbox" />]]></replace>
+    </modification>
+  </public_template_modifications>
   <bb_code_media_sites/>
   <bb_codes/>
 </addon>
