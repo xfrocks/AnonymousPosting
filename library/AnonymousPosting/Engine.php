@@ -124,5 +124,7 @@ class AnonymousPosting_Engine
             return sprintf('https://robohash.org/%1$s.png?size=%2$dx%2$d',
                 $hash, $size);
         }
+
+        return '';
     }
 }

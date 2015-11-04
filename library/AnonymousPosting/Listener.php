@@ -58,5 +58,7 @@ class AnonymousPosting_Listener
         if (!empty(self::$_originalHelperAvatarUrl)) {
             return call_user_func_array(self::$_originalHelperAvatarUrl, $args);
         }
+
+        return '';
     }
 }
