@@ -2,6 +2,8 @@
 
 class AnonymousPosting_Listener
 {
+    const UPDATER_URL = 'https://xfrocks.com/api/index.php?updater';
+
     protected static $_originalHelperAvatarUrl = null;
 
     public static function load_class($class, array &$extend)
@@ -34,6 +36,9 @@ class AnonymousPosting_Listener
             }
             XenForo_Template_Helper_Core::$helperCallbacks['avatar'] = array(__CLASS__, 'helperRoboHashUrl');
         }
+
+        AnonymousPosting_ShippableHelper_Updater::onInitDependencies($dependencies,
+            self::UPDATER_URL, 'anonymous_posting');
     }
 
     public static function file_health_check(XenForo_ControllerAdmin_Abstract $controller, array &$hashes)
