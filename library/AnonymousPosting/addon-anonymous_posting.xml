@@ -51,6 +51,7 @@
   <code_events/>
   <code_event_listeners>
     <listener event_id="file_health_check" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="file_health_check" active="1" hint="" description=""/>
+    <listener event_id="init_dependencies" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="init_dependencies" active="1" hint="" description=""/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" hint="" description=""/>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" hint="" description=""/>
     <listener event_id="load_class_model" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" hint="" description=""/>
@@ -61,6 +62,12 @@
   <optiongroups>
     <option option_id="anonymous_posting_poster" edit_format="textbox" data_type="string" can_backup="1" validation_class="AnonymousPosting_Option" validation_method="validatePoster">
       <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="discussionOptions" display_order="9999"/>
+    </option>
+    <option option_id="anonymous_roboHash" edit_format="onoff" data_type="unsigned_integer" can_backup="1">
+      <default_value>1</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
       <relation group_id="discussionOptions" display_order="9999"/>
@@ -90,6 +97,8 @@
     <phrase title="anonymous_posting_this_was_posted_by" version_id="3" version_string="1.1"><![CDATA[This was posted anonymously by]]></phrase>
     <phrase title="option_anonymous_posting_poster" version_id="1" version_string="0.9"><![CDATA[[Anonymous Posting] Poster]]></phrase>
     <phrase title="option_anonymous_posting_poster_explain" version_id="1" version_string="0.9"><![CDATA[Enter the username of the "Anonymous" user you want to associate anonymously posted posts with. If you leave this field blank, they will appeared to be posted by guest (the guest name can be changed by editing the phrase named "anonymous_posting_poster").]]></phrase>
+    <phrase title="option_anonymous_roboHash" version_id="15" version_string="2.3.0"><![CDATA[Use RoboHash avatar]]></phrase>
+    <phrase title="option_anonymous_roboHash_explain" version_id="15" version_string="2.3.0"><![CDATA[Enable this option to use RoboHash avatar for anonymous posts. The avatar should be unique for each poster in each thread (there is no absolute guarantee though).]]></phrase>
     <phrase title="permission_forum_anonymous_posting_post" version_id="9" version_string="1.4"><![CDATA[Post anonymously]]></phrase>
     <phrase title="permission_forum_anonymous_posting_seeUser" version_id="11" version_string="2.1"><![CDATA[See who are viewing threads]]></phrase>
     <phrase title="permission_general_anonymous_posting_reveal" version_id="9" version_string="1.4"><![CDATA[Reveal anonymously-posted posts]]></phrase>

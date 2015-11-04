@@ -98,4 +98,31 @@ class AnonymousPosting_Engine
 
         return $poster;
     }
+
+    public static function helperRoboHashUrl($data, $sizeCode)
+    {
+        if (!empty($data['post_id'])
+            && !empty($data['thread_id'])
+            && !empty($data['anonymous_posting_real_user_id'])
+        ) {
+            $hash = md5($data['thread_id'] . $data['anonymous_posting_real_user_id']
+                . XenForo_Application::getConfig()->get('globalSalt'));
+
+            switch ($sizeCode) {
+                case 'm':
+                    $size = 96;
+                    break;
+                case 's':
+                    $size = 48;
+                    break;
+                case 'l':
+                default:
+                    $size = 192;
+                    break;
+            }
+
+            return sprintf('https://robohash.org/%1$s.png?size=%2$dx%2$d',
+                $hash, $size);
+        }
+    }
 }
