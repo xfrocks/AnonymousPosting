@@ -73,10 +73,15 @@ class AnonymousPosting_Engine
         }
 
         // reset data writer to use anonymous values
-        foreach ($poster as $key => $value) {
-            $dw->set('anonymous_posting_real_' . $key, $dw->get($key));
-            $dw->set($key, $value);
-        }
+        $dw->bulkSet(array(
+            'anonymous_posting_real_user_id' => $dw->get('user_id'),
+            'anonymous_posting_real_username' => $dw->get('username'),
+        ));
+        $dw->setOption(AnonymousPosting_XenForo_DataWriter_DiscussionMessage_Post::OPTION_IS_ANONYMOUS, true);
+        $dw->bulkSet(array(
+            'user_id' => $poster['user_id'],
+            'username' => $poster['username'],
+        ));
 
         // reset attachment data if available
         if (!empty($input['attachment_hash'])) {

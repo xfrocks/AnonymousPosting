@@ -2,13 +2,13 @@
 
 class AnonymousPosting_XenForo_DataWriter_DiscussionMessage_Post extends XFCP_AnonymousPosting_XenForo_DataWriter_DiscussionMessage_Post
 {
-    const OPTION_ANONYMOUS_POSTING_IS_ENABLED = '_AnonymousPosting_isEnabled';
+    const OPTION_IS_ANONYMOUS = '_AnonymousPosting_isAnonymous';
 
     protected function _getDefaultOptions()
     {
         $options = parent::_getDefaultOptions();
 
-        $options[self::OPTION_ANONYMOUS_POSTING_IS_ENABLED] = false;
+        $options[self::OPTION_IS_ANONYMOUS] = false;
 
         return $options;
     }
@@ -31,10 +31,6 @@ class AnonymousPosting_XenForo_DataWriter_DiscussionMessage_Post extends XFCP_An
             /** @var AnonymousPosting_XenForo_ControllerPublic_Thread $controller */
             $controller = $GLOBALS['AnonymousPosting_XenForo_ControllerPublic_Thread::actionAddReply'];
             $controller->AnonymousPosting_actionAddReply($this);
-
-            if ($this->get('anonymous_posting_real_user_id') > 0) {
-                $this->setOption(self::OPTION_ANONYMOUS_POSTING_IS_ENABLED, true);
-            }
         }
     }
 

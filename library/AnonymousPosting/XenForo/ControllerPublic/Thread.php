@@ -4,14 +4,7 @@ class AnonymousPosting_XenForo_ControllerPublic_Thread extends XFCP_AnonymousPos
 {
     public function actionIndex()
     {
-        $response = AnonymousPosting_Engine::prepareResponse($this, $this->_input, parent::actionIndex());
-
-        if ($response instanceof XenForo_ControllerResponse_View) {
-            $response->params['AnonymousPosting_canReveal'] =
-                XenForo_Visitor::getInstance()->hasPermission('general', 'anonymous_posting_reveal');
-        }
-
-        return $response;
+        return AnonymousPosting_Engine::prepareResponse($this, $this->_input, parent::actionIndex());
     }
 
     public function actionReply()
@@ -33,6 +26,16 @@ class AnonymousPosting_XenForo_ControllerPublic_Thread extends XFCP_AnonymousPos
         }
 
         AnonymousPosting_Engine::processAnonymousPosting($forum['node_id'], $dw->get('thread_id'), $this, $dw);
+    }
+
+    protected function _getDefaultViewParams(array $forum, array $thread, array $posts, $page = 1, array $viewParams = array())
+    {
+        $viewParams = parent::_getDefaultViewParams($forum, $thread, $posts, $page, $viewParams);
+
+        $viewParams['AnonymousPosting_canReveal'] =
+            XenForo_Visitor::getInstance()->hasPermission('general', 'anonymous_posting_reveal');
+
+        return $viewParams;
     }
 
 }

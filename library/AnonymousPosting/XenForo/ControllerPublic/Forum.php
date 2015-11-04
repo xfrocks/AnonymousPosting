@@ -13,16 +13,14 @@ class AnonymousPosting_XenForo_ControllerPublic_Forum extends XFCP_AnonymousPost
         return parent::actionAddThread();
     }
 
-    public function AnonymousPosting_actionAddThread(XenForo_DataWriter_Discussion_Thread $dw, XenForo_DataWriter_DiscussionMessage $postDw)
+    public function AnonymousPosting_actionAddThread(XenForo_DataWriter_DiscussionMessage $postDw)
     {
-        $poster = AnonymousPosting_Engine::processAnonymousPosting($dw->get('node_id'), 0, $this, $postDw);
+        $forum = $postDw->getExtraData(XenForo_DataWriter_DiscussionMessage_Post::DATA_FORUM);
+        if (empty($forum)) {
+            return;
+        }
 
-//        if (!empty($poster)) {
-//            $dw->set('user_id', $poster['user_id']);
-//            $dw->set('username', $poster['username']);
-//            $dw->set('last_post_user_id', $poster['user_id']);
-//            $dw->set('last_post_username', $poster['username']);
-//        }
+        AnonymousPosting_Engine::processAnonymousPosting($forum['node_id'], 0, $this, $postDw);
     }
 
 }
