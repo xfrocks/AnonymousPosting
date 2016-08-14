@@ -46,6 +46,17 @@
 	
 	<input type="hidden" name="_xfConfirm" value="1" />
 </xen:form>]]></template>
+    <template title="anonymous_posting_option_poster"><![CDATA[<xen:textboxunit label="{$preparedOption.title}"
+				 name="{$fieldPrefix}[{$preparedOption.option_id}]"
+				 value="{$preparedOption.option_value}"
+				 inputclass="Elastic AutoComplete AcSingle">
+	<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
+	<xen:html>
+		<xen:include template="option_list_option_editlink" />
+		<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
+		{xen:raw $editLink}
+	</xen:html>
+</xen:textboxunit>]]></template>
   </admin_templates>
   <admin_template_modifications/>
   <code_events/>
@@ -60,9 +71,9 @@
   <email_templates/>
   <email_template_modifications/>
   <optiongroups>
-    <option option_id="anonymous_posting_poster" edit_format="textbox" data_type="string" can_backup="1" validation_class="AnonymousPosting_Option" validation_method="validatePoster">
+    <option option_id="anonymous_posting_poster" edit_format="template" data_type="string" can_backup="1" validation_class="AnonymousPosting_Option" validation_method="validatePoster">
       <default_value></default_value>
-      <edit_format_params></edit_format_params>
+      <edit_format_params>anonymous_posting_option_poster</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="discussionOptions" display_order="9999"/>
     </option>
