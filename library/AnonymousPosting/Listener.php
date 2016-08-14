@@ -27,7 +27,7 @@ class AnonymousPosting_Listener
 
     public static function init_dependencies(XenForo_Dependencies_Abstract $dependencies, array $data)
     {
-        if (!!XenForo_Application::getOptions()->get('anonymous_roboHash')) {
+        if (XenForo_Application::getOptions()->get('anonymous_roboHash') > 0) {
             self::$_originalHelperAvatarUrl = XenForo_Template_Helper_Core::$helperCallbacks['avatar'];
             if (!empty(self::$_originalHelperAvatarUrl)
                 && self::$_originalHelperAvatarUrl[0] === 'self'

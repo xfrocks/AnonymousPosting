@@ -121,8 +121,19 @@ class AnonymousPosting_Engine
                     break;
             }
 
-            return sprintf('https://robohash.org/%1$s.png?size=%2$dx%2$d',
-                $hash, $size);
+            $optionValue = intval(XenForo_Application::getOptions()->get('anonymous_roboHash'));
+            $set = 'set1';
+            switch ($optionValue) {
+                case 2:
+                    $set = 'set2';
+                    break;
+                case 3:
+                    $set = 'set3';
+                    break;
+            }
+
+            return sprintf('//robohash.org/%1$s.png?size=%2$dx%2$d&set=%3$s',
+                $hash, $size, $set);
         }
 
         return '';
