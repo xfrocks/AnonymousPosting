@@ -117,8 +117,7 @@ class AnonymousPosting_Installer
 
     public static function uninstallCustomized()
     {
-        AnonymousPosting_ShippableHelper_Updater::onUninstall(
-            AnonymousPosting_Listener::UPDATER_URL, 'anonymous_posting');
+        AnonymousPosting_ShippableHelper_Updater::onUninstall(null, 'anonymous_posting');
     }
 
 }
