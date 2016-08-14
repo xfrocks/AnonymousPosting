@@ -90,9 +90,12 @@
   <code_event_listeners>
     <listener event_id="file_health_check" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="file_health_check" active="1" hint="" description=""/>
     <listener event_id="init_dependencies" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="init_dependencies" active="1" hint="" description=""/>
-    <listener event_id="load_class_controller" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" hint="" description=""/>
-    <listener event_id="load_class_datawriter" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" hint="" description=""/>
-    <listener event_id="load_class_model" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class" active="1" hint="" description=""/>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class_XenForo_ControllerPublic_Forum" active="1" hint="XenForo_ControllerPublic_Forum" description="XenForo_ControllerPublic_Forum"/>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class_XenForo_ControllerPublic_Thread" active="1" hint="XenForo_ControllerPublic_Thread" description="XenForo_ControllerPublic_Thread"/>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class_4f477c58235ffb475271e2521731d700" active="1" hint="XenForo_DataWriter_DiscussionMessage_Post" description="XenForo_DataWriter_DiscussionMessage_Post"/>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class_XenForo_DataWriter_Discussion_Thread" active="1" hint="XenForo_DataWriter_Discussion_Thread" description="XenForo_DataWriter_Discussion_Thread"/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class_XenForo_Model_Forum" active="1" hint="XenForo_Model_Forum" description="XenForo_Model_Forum"/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="AnonymousPosting_Listener" callback_method="load_class_XenForo_Model_Session" active="1" hint="XenForo_Model_Session" description="XenForo_Model_Session"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>

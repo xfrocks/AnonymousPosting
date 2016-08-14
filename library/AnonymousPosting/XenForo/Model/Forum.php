@@ -4,8 +4,12 @@ class AnonymousPosting_XenForo_Model_Forum extends XFCP_AnonymousPosting_XenForo
 {
     protected static $_AnonymousPosting_checkSeeUserPermission = 0;
 
-    public function AnonymousPosting_canPostAnonymouslyInForum(array $forum, &$errorPhraseKey = '', array $nodePermissions = null, array $viewingUser = null)
-    {
+    public function AnonymousPosting_canPostAnonymouslyInForum(
+        array $forum,
+        &$errorPhraseKey = '',
+        array $nodePermissions = null,
+        array $viewingUser = null
+    ) {
         $this->standardizeViewingUserReferenceForNode($forum['node_id'], $viewingUser, $nodePermissions);
 
         return XenForo_Permission::hasContentPermission($nodePermissions, 'anonymous_posting_post');
@@ -20,8 +24,12 @@ class AnonymousPosting_XenForo_Model_Forum extends XFCP_AnonymousPosting_XenForo
         }
     }
 
-    public function canViewForum(array $forum, &$errorPhraseKey = '', array $nodePermissions = null, array $viewingUser = null)
-    {
+    public function canViewForum(
+        array $forum,
+        &$errorPhraseKey = '',
+        array $nodePermissions = null,
+        array $viewingUser = null
+    ) {
         $canView = parent::canViewForum($forum, $errorPhraseKey, $nodePermissions, $viewingUser);
 
         if ($canView

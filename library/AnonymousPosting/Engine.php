@@ -3,10 +3,11 @@
 class AnonymousPosting_Engine
 {
 
-    public static function prepareResponse(XenForo_Controller $controller,
-                                           XenForo_Input $input,
-                                           XenForo_ControllerResponse_Abstract $response)
-    {
+    public static function prepareResponse(
+        XenForo_Controller $controller,
+        XenForo_Input $input,
+        XenForo_ControllerResponse_Abstract $response
+    ) {
         if ($response instanceof XenForo_ControllerResponse_View
             && isset($response->params['forum'])
         ) {
@@ -38,10 +39,12 @@ class AnonymousPosting_Engine
         return md5(sprintf('%s%d%d%s', $session->getSessionId(), $forumId, $threadId, $salt));
     }
 
-    public static function processAnonymousPosting($forumId, $threadId,
-                                                   XenForo_Controller $controller,
-                                                   XenForo_DataWriter_DiscussionMessage $dw)
-    {
+    public static function processAnonymousPosting(
+        $forumId,
+        $threadId,
+        XenForo_Controller $controller,
+        XenForo_DataWriter_DiscussionMessage $dw
+    ) {
         $input = $controller->getInput()->filter(array(
             'attachment_hash' => XenForo_Input::STRING,
             'anonymous_posting' => XenForo_Input::STRING,

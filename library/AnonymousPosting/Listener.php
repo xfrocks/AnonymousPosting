@@ -6,21 +6,45 @@ class AnonymousPosting_Listener
 
     protected static $_originalHelperAvatarUrl = null;
 
-    public static function load_class($class, array &$extend)
+    public static function load_class_XenForo_ControllerPublic_Forum($class, array &$extend)
     {
-        static $extends = array(
-            'XenForo_ControllerPublic_Forum',
-            'XenForo_ControllerPublic_Thread',
+        if ($class === 'XenForo_ControllerPublic_Forum') {
+            $extend[] = 'AnonymousPosting_XenForo_ControllerPublic_Forum';
+        }
+    }
 
-            'XenForo_DataWriter_DiscussionMessage_Post',
-            'XenForo_DataWriter_Discussion_Thread',
+    public static function load_class_XenForo_ControllerPublic_Thread($class, array &$extend)
+    {
+        if ($class === 'XenForo_ControllerPublic_Thread') {
+            $extend[] = 'AnonymousPosting_XenForo_ControllerPublic_Thread';
+        }
+    }
 
-            'XenForo_Model_Forum',
-            'XenForo_Model_Session',
-        );
+    public static function load_class_4f477c58235ffb475271e2521731d700($class, array &$extend)
+    {
+        if ($class === 'XenForo_DataWriter_DiscussionMessage_Post') {
+            $extend[] = 'AnonymousPosting_XenForo_DataWriter_DiscussionMessage_Post';
+        }
+    }
 
-        if (in_array($class, $extends)) {
-            $extend[] = 'AnonymousPosting_' . $class;
+    public static function load_class_XenForo_DataWriter_Discussion_Thread($class, array &$extend)
+    {
+        if ($class === 'XenForo_DataWriter_Discussion_Thread') {
+            $extend[] = 'AnonymousPosting_XenForo_DataWriter_Discussion_Thread';
+        }
+    }
+
+    public static function load_class_XenForo_Model_Forum($class, array &$extend)
+    {
+        if ($class === 'XenForo_Model_Forum') {
+            $extend[] = 'AnonymousPosting_XenForo_Model_Forum';
+        }
+    }
+
+    public static function load_class_XenForo_Model_Session($class, array &$extend)
+    {
+        if ($class === 'XenForo_Model_Session') {
+            $extend[] = 'AnonymousPosting_XenForo_Model_Session';
         }
     }
 

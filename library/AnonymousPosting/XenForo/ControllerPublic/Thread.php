@@ -28,8 +28,13 @@ class AnonymousPosting_XenForo_ControllerPublic_Thread extends XFCP_AnonymousPos
         AnonymousPosting_Engine::processAnonymousPosting($forum['node_id'], $dw->get('thread_id'), $this, $dw);
     }
 
-    protected function _getDefaultViewParams(array $forum, array $thread, array $posts, $page = 1, array $viewParams = array())
-    {
+    protected function _getDefaultViewParams(
+        array $forum,
+        array $thread,
+        array $posts,
+        $page = 1,
+        array $viewParams = array()
+    ) {
         $viewParams = parent::_getDefaultViewParams($forum, $thread, $posts, $page, $viewParams);
 
         $viewParams['AnonymousPosting_canReveal'] =
