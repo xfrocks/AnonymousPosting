@@ -8,33 +8,60 @@
   <admin_templates>
     <template title="anonymous_posting_log"><![CDATA[<xen:title>{xen:phrase anonymous_posting_log}</xen:title>
 
-<xen:if is="{$posts}">
-	<table class="dataTable">
-	<col />
-	<col />
-	<col />
-	<col width="1" />
-	<col width="1" />
-	<tr class="dataRow">
-		<th>{xen:phrase message}</th>
-		<th>{xen:phrase user_name}</th>
-		<th>{xen:phrase date}</th>
-		<th>&nbsp;</th>
-	</tr>
-	<xen:foreach loop="$posts" value="$post">
-		<tr class="dataRow">
-			<td>{xen:helper snippet, {$post.message}, 100}</td>
-			<td>{$post.anonymous_posting_real_username}</td>
-			<td><xen:datetime time="{$post.post_date}" /></td>
-			<td><a href="{xen:link 'posts', $post}" target="_blank">{xen:phrase view}</a></td>
-		</tr>
-	</xen:foreach>
-	</table>
-	<div><a href="{xen:adminlink 'anonymous-posting/delete-all'}" class="OverlayTrigger">{xen:phrase delete_all}</a></div>
-	<xen:adminpagenav page="{$page}" perpage="{$perPage}" total="{$total}" link="anonymous-posting" />
+<xen:require css="filter_list.css" />
+<xen:require js="js/xenforo/filter_list.js" />
+
+<xen:if is="{$logs}">
+	
+	<xen:topctrl>
+		<a href="{xen:adminlink anonymous-posting/delete-all}"
+			class="button OverlayTrigger">{xen:phrase delete_all}</a>
+	</xen:topctrl>
+
+	<xen:form action="{xen:adminlink anonymous-posting}" class="section AutoValidator">
+	
+		<h2 class="subHeading">
+			{xen:phrase anonymous_posting_log}
+		</h2>
+	
+		<ol class="FilterList">
+			<xen:foreach loop="$logs" key="$logId" value="$log">
+				<xen:listitem id="{$logId}"
+					label="{$log.anonymous_posting_real_username}"
+					snippet="{xen:helper snippet, $log.message, 140}"
+					href="{xen:link posts, $log}"
+					delete="{xen:adminlink anonymous-posting/delete, $log}"
+					deletehint="{xen:phrase delete}"
+					tooltip="{xen:datetime $log.post_date}" />
+			</xen:foreach>
+		</ol>
+	
+		<p class="sectionFooter">{xen:phrase showing_x_of_y_items, 'count=<span class="FilterListCount">{xen:count $logs}</span>', 'total={xen:number $total}'}</p>
+		
+	</xen:form>
+	
+	{xen:adminpagenav $perPage, $total, $page, anonymous-posting}
+
 <xen:else />
-	<div>{xen:phrase anonymous_posting_log_empty}</div>
+	<div class="noResults">{xen:phrase anonymous_posting_log_empty}</div>
 </xen:if>]]></template>
+    <template title="anonymous_posting_log_delete"><![CDATA[<xen:title>{xen:phrase anonymous_posting_confirm_deletion_of_log}</xen:title>
+<xen:require css="delete_confirmation.css" />
+
+<xen:form action="{xen:adminlink anonymous-posting/delete, $log}" class="deleteConfirmForm formOverlay">
+
+	<p>
+		{xen:phrase anonymous_posting_sure_you_want_to_delete,
+			'posts_link={xen:link posts, $log}',
+			'username={$log.anonymous_posting_real_username}',
+			'post_date={xen:datetime $log.post_date}'
+		}
+	</p>
+
+	<xen:submitunit save="{xen:phrase delete}" />
+	
+	<input type="hidden" name="_xfConfirm" value="1" />
+</xen:form>]]></template>
     <template title="anonymous_posting_log_delete_all"><![CDATA[<xen:title>{xen:phrase anonymous_posting_confirm_deletion_of_log}</xen:title>
 <xen:require css="delete_confirmation.css" />
 
@@ -107,7 +134,9 @@
     <phrase title="anonymous_posting_poster" global_cache="1" version_id="1" version_string="0.9"><![CDATA[Anonymous]]></phrase>
     <phrase title="anonymous_posting_post_this_as_anonymous" version_id="1" version_string="0.9"><![CDATA[Post this anonymously]]></phrase>
     <phrase title="anonymous_posting_post_this_as_anonymous_lite" version_id="1" version_string="0.9"><![CDATA[Anonymous?]]></phrase>
-    <phrase title="anonymous_posting_sure_you_want_to_delete_all" version_id="4" version_string="1.2"><![CDATA[Are you sure that you want to delete all Anonymous Posting log? After this, you won't be able to see who posted which.]]></phrase>
+    <phrase title="anonymous_posting_sure_you_want_to_delete" version_id="16" version_string="2.3.1"><![CDATA[Are you sure that you want to delete anonymous posting log for <a href="{posts_link}" target="_blank" tabindex="-1">{username} at {post_date}</a>?
+]]></phrase>
+    <phrase title="anonymous_posting_sure_you_want_to_delete_all" version_id="16" version_string="2.3.1"><![CDATA[Are you sure that you want to delete all log? After this, you won't be able to see who posted which anonymous posts.]]></phrase>
     <phrase title="anonymous_posting_this_was_posted_by" version_id="3" version_string="1.1"><![CDATA[This was posted anonymously by]]></phrase>
     <phrase title="option_anonymous_posting_poster" version_id="1" version_string="0.9"><![CDATA[[Anonymous Posting] Poster]]></phrase>
     <phrase title="option_anonymous_posting_poster_explain" version_id="1" version_string="0.9"><![CDATA[Enter the username of the "Anonymous" user you want to associate anonymously posted posts with. If you leave this field blank, they will appeared to be posted by guest (the guest name can be changed by editing the phrase named "anonymous_posting_poster").]]></phrase>
@@ -122,7 +151,7 @@
   </phrases>
   <route_prefixes>
     <route_type type="admin">
-      <prefix original_prefix="anonymous-posting" class="AnonymousPosting_Route_PrefixAdmin" build_link="none"/>
+      <prefix original_prefix="anonymous-posting" class="AnonymousPosting_Route_PrefixAdmin_AnonymousPosting" build_link="data_only"/>
     </route_type>
   </route_prefixes>
   <style_properties/>

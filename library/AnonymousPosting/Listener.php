@@ -15,7 +15,6 @@ class AnonymousPosting_Listener
             'XenForo_DataWriter_DiscussionMessage_Post',
             'XenForo_DataWriter_Discussion_Thread',
 
-            'XenForo_Model_Post',
             'XenForo_Model_Forum',
             'XenForo_Model_Session',
         );
