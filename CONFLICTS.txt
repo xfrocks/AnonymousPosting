@@ -1,0 +1,36 @@
+########################################
+Double Post Merge http://xenforo.com/community/resources/833/
+Explain: if a normal post goes before an anonymous one, the later will be merged.
+Fix: 1 file edit
+########################################
+File: library/DoublePost/ControllerPublic/Thread.php
+Look for:
+
+--------------------
+$writer->preSave();
+--------------------
+
+Insert below:
+
+--------------------
+// supports [bd] Anonymous Posting
+if (class_exists('AnonymousPosting_DataWriter_DiscussionMessage_Post'))
+{
+	// [bd] Anonymous Posting has been installed
+	try
+	{
+		$anonymousPosting_isEnabled = $writer->getOption('_AnonymousPosting_isEnabled');
+		if ($anonymousPosting_isEnabled)
+		{
+			// this post is configured to be posted anonymously
+			// ...do not merge
+			return parent::actionAddReply();
+		}
+	}
+	catch (XenForo_Exception $e)
+	{
+		// the installed version of [bd] Anonymous Posting is too old
+		// it doesn't have the option implemented (requires version 2.1)
+	}
+}
+--------------------
